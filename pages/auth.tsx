@@ -1,13 +1,10 @@
 import axios from "axios";
 import { useCallback, useState } from "react";
 import Input from "@/components/Input";
-import {signIn} from 'next-auth/react'
-import { useRouter } from "next/router";
-import {FcGoogle} from 'react-icons/fc'
+import { signIn } from "next-auth/react";
+import { FcGoogle } from "react-icons/fc";
 
 const Auth = () => {
-  const router = useRouter();
-
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPasword] = useState("");
@@ -20,36 +17,31 @@ const Auth = () => {
       currentVariant == "login" ? "register" : "login"
     );
   }, []);
-  const login = useCallback(async()=>{
-    try{
-        await signIn('credentials',{
-            email,
-            password,
-            redirect:false,
-            callbackUrl:'/'
-        });
-        router.push('/')
-    }catch(error){
-        console.log(error)
+  const login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: "/profiles",
+      });
+    } catch (error) {
+      console.log(error);
     }
-  },[email,password,router]) 
+  }, [email, password]);
 
   //Antes que nada quiero registar un usuario
   const register = useCallback(async () => {
     try {
-
-        await axios.post('/api/register',{
-            email,
-            name,
-            password
-        })
-        login()
+      await axios.post("/api/register", {
+        email,
+        name,
+        password,
+      });
+      login();
     } catch (error) {
       console.log(error);
     }
-  }, [email,name,password]);
-
-  
+  }, [email, name, password]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover ">
@@ -96,12 +88,16 @@ const Auth = () => {
                   value={password}
                 />
               </div>
-              <button onClick={Variant == 'login'? login : register}  className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition ">
+              <button
+                onClick={Variant == "login" ? login : register}
+                className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition "
+              >
                 {Variant == "login" ? "Login" : "Sing Up"}
               </button>
-              <div className="flex flex-row items-center gap-4 mt-8 justify-center" >
-               <div
-               className="
+              <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+                <div
+                  onClick={() => signIn("google", { callbackUrl: "/profiles" })}
+                  className="
                w-10
                h-10
                bg-white
@@ -113,9 +109,9 @@ const Auth = () => {
                hover:opacity-80
                transition
                "
-               >
-                <FcGoogle size={30} />
-               </div>
+                >
+                  <FcGoogle size={30} />
+                </div>
               </div>
               <p className="text-neutral-500 mt-12">
                 {Variant == "login"
