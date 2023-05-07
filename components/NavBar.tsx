@@ -1,4 +1,4 @@
-import React, { useCallback, useState,useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import NavbarItem from "@/components/NavbarItem";
 import { BsChevronDown, BsSearch, BsBell } from "react-icons/bs";
 import MobileMenu from "./MobileMenu";
@@ -11,22 +11,21 @@ const NavBar = () => {
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showBackground, setShowBackground] = useState(false);
 
-
   useEffect(() => {
     const handleScroll = () => {
-      console.log(window.scrollY)
+      console.log(window.scrollY);
       if (window.scrollY >= TOP_OFFSET) {
-        setShowBackground(true)
+        setShowBackground(true);
       } else {
-        setShowBackground(false)
+        setShowBackground(false);
       }
-    }
+    };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-    }
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const toggleAccountMenu = () => {
@@ -40,14 +39,14 @@ const NavBar = () => {
   return (
     <nav className="w-full fixed z-40">
       <div
-        className={`px-4 md:px-16 py-6 flex flex-row items-center transition duration-500 ${showBackground ? 'bg-zinc-900 bg-opacity-90' : ''}`}
+        className={`px-4 md:px-16 py-6 flex flex-row items-center transition duration-500 ${
+          showBackground ? "bg-zinc-900 bg-opacity-90" : ""
+        }`}
       >
         <img
-          className="
-        h-4
-        lg:h-7
-        "
+          className="h-4 lg:h-7 "
           src="/images/logo.png"
+          alt="logo-img"
         ></img>
         <div
           className="
@@ -110,7 +109,7 @@ const NavBar = () => {
               overflow-hidden  
               "
             >
-              <img src="/images/default-blue.png"></img>
+              <img src="/images/default-blue.png" alt="default-blue"></img>
             </div>
             <BsChevronDown
               className={`w-4 text-white fill-white transition ${
